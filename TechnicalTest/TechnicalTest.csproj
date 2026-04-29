@@ -167,7 +167,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="InterfaceAdapter\MyDependencyResolver.cs" />
+    <Compile Include="InterfaceAdapter\Adapters\ConfigSettingsAdapter.cs" />
+    <Compile Include="InterfaceAdapter\Adapters\HttpAdapter.cs" />
+    <Compile Include="InterfaceAdapter\Adapters\PostalCodeAdapter.cs" />
+    <Compile Include="InterfaceAdapter\Adapters\SerializeAdapter.cs" />
+    <Compile Include="InterfaceAdapter\MvcDependencyResolver.cs" />
+    <Compile Include="InterfaceAdapter\WebApiDependencyResolver.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Context.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -210,6 +215,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\Tools\ConnectionApi.js" />
+    <Content Include="Scripts\ViewsScripts\PostalCodeScripts\ValidateCpScript.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -227,7 +233,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Scripts\Views\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -260,6 +265,10 @@
     <ProjectReference Include="..\App\App.csproj">
       <Project>{f6c5f6e6-b0f4-480e-8a9b-edda0e783151}</Project>
       <Name>App</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{cb97bfe3-14c4-49c1-a8ec-ae721d492488}</Project>
+      <Name>Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

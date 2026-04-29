@@ -18,6 +18,10 @@ class ConnectionApi {
         }, ConnectionApi.timeSpam);
     }
 
+    holaMundo() {
+        console.log("Hola Mundo");  
+    }
+
     // ================================ INSERT ================================
 
     async SendPost(endpoint, data) {

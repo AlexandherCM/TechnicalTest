@@ -5,11 +5,11 @@ using System.Web.Mvc;
 
 namespace TechnicalTest.InterfaceAdapter
 {
-    public class MyDependencyResolver : IDependencyResolver
+    public class MvcDependencyResolver : IDependencyResolver
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public MyDependencyResolver(IServiceProvider serviceProvider)
+        public MvcDependencyResolver(IServiceProvider serviceProvider)
             => _serviceProvider = serviceProvider;
 
         public object GetService(Type serviceType)
@@ -31,6 +31,5 @@ namespace TechnicalTest.InterfaceAdapter
 
         public IEnumerable<object> GetServices(Type serviceType)
             => _serviceProvider.GetServices(serviceType);
-        
     }
 }

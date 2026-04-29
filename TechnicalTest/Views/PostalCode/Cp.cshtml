@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Title = "Cp";
+}
+
+<h2>Códigos Postales</h2>
+
+<div class="container" style="margin-top: 30px;">
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Consulta de Código Postal
+                    </h3>
+                </div>
+
+                <div class="panel-body">
+
+                    <p class="text-muted">
+                        Ingresa un Código Postal de 5 dígitos para consultar la información del estado y sus colonias.
+                    </p>
+
+                    <form id="formConsultaCP" method="post" action="@Url.Action("ConsultarCodigoPostal", "Home")">
+
+                        <div class="form-group">
+                            <label for="codigoPostal">Código Postal</label>
+
+                            <input type="text"
+                                   id="codigoPostal"
+                                   name="codigoPostal"
+                                   class="form-control"
+                                   placeholder="Ejemplo: 01000"
+                                   maxlength="5"
+                                   autocomplete="off" />
+
+                            <span id="mensajeValidacion" class="help-block text-danger" style="display:none;">
+                                El código postal debe contener exactamente 5 números.
+                            </span>
+                        </div>
+
+                        <button type="submit"
+                                id="btnConsultar"
+                                class="btn btn-primary"
+                                disabled>
+                            Consultar
+                        </button>
+
+                        <button type="button"
+                                id="btnLimpiar"
+                                class="btn btn-default">
+                            Limpiar
+                        </button>
+
+                    </form>
+
+                </div>
+            </div>
+
+            <div id="seccionResultados" class="panel panel-default" style="display:none;">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Resultados de la consulta
+                    </h3>
+                </div>
+
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>Estado:</strong>
+                            <p id="nombreEstado" class="form-control-static">
+                                -
+                            </p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <strong>Código de estado:</strong>
+                            <p id="codigoEstado" class="form-control-static">
+                                -
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="form-group">
+                        <label for="colonias">Colonias asociadas</label>
+
+                        <select id="colonias" class="form-control">
+                            <option value="">Seleccione una colonia</option>
+                        </select>
+                    </div>
+
+                    <div class="alert alert-info" style="display:none;" id="infoColonia">
+                        <strong>Código de colonia:</strong>
+                        <span id="codigoColonia">-</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="mensajeError" class="alert alert-danger" style="display:none;">
+                Ocurrió un problema al consultar la información del Código Postal.
+            </div>
+
+        </div>
+    </div>
+
+</div>

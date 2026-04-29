@@ -1,3 +1,5 @@
 <Solution>
+  <Project Path="App/App.csproj" Id="f6c5f6e6-b0f4-480e-8a9b-edda0e783151" />
+  <Project Path="Domain/Domain.csproj" Id="cb97bfe3-14c4-49c1-a8ec-ae721d492488" />
   <Project Path="TechnicalTest/TechnicalTest.csproj" Id="93be8748-76c6-405b-8966-b972557181bb" />
 </Solution>

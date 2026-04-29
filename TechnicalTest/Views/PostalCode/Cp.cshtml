@@ -25,10 +25,10 @@
                     <form id="formConsultaCP">
 
                         <div class="form-group">
-                            <label for="codigoPostal">Código Postal</label>
+                            <label for="txtcodigoPostal">Código Postal</label>
 
                             <input type="text"
-                                   id="codigoPostal"
+                                   id="txtcodigoPostal"
                                    name="codigoPostal"
                                    class="form-control"
                                    placeholder="Ejemplo: 01000"
@@ -58,14 +58,61 @@
                 </div>
             </div>
 
+            <div id="seccionResultados" class="panel panel-default" style="display:none;">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Resultados de la consulta
+                    </h3>
+                </div>
+
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Nombre del estado</label>
+                            <p id="lblNombreEstado" class="form-control-static">-</p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Código del estado</label>
+                            <p id="lblCodigoEstado" class="form-control-static">-</p>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="form-group">
+                        <label for="ddlColonias">Colonias asociadas al Código Postal</label>
+
+                        <select id="ddlColonias" class="form-control" disabled>
+                            <option value="">Seleccione una colonia</option>
+                        </select>
+                    </div>
+
+                    <div id="contenedorCodigoColonia" class="alert alert-info" style="display:none;">
+                        <strong>Código de colonia:</strong>
+                        <span id="lblCodigoColonia">-</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="mensajeSinResultados" class="alert alert-warning" style="display:none;">
+                No se encontró información para el Código Postal capturado.
+            </div>
+
+            <div id="mensajeErrorConsulta" class="alert alert-danger" style="display:none;">
+                Ocurrió un error al consultar la información. Intenta nuevamente.
+            </div>
+
+
         </div>
     </div>
 
-
-
-</div>  
+</div>
 
 @section scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/ViewsScripts/PostalCodeScripts/ValidateCpScript.js")
+    @Scripts.Render("~/Scripts/ViewsScripts/PostalCodeScripts/RequestCpScript.js")
 }

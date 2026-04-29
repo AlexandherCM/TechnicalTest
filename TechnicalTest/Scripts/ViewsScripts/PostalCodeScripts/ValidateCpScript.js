@@ -1,16 +1,16 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    var inputCP = document.getElementById("codigoPostal");
+    var txtcodigoPostal = document.getElementById("txtcodigoPostal");
     var btnConsultar = document.getElementById("btnConsultar");
     var btnLimpiar = document.getElementById("btnLimpiar");
     var mensajeValidacion = document.getElementById("mensajeValidacion");
 
-    inputCP.addEventListener("input", function () {
-        var valor = inputCP.value;
+    txtcodigoPostal.addEventListener("input", function () {
+        var valor = txtcodigoPostal.value;
 
         // Permitir únicamente números
         valor = valor.replace(/[^0-9]/g, "");
-        inputCP.value = valor;
+        txtcodigoPostal.value = valor;
 
         var esValido = /^[0-9]{5}$/.test(valor);
 
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     btnLimpiar.addEventListener("click", function () {
-        inputCP.value = "";
+        txtcodigoPostal.value = "";
         btnConsultar.disabled = true;
         mensajeValidacion.style.display = "none";
 

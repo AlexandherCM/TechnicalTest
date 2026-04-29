@@ -14,6 +14,6 @@ namespace TechnicalTest.Controllers.Api
 
         [HttpGet]
         public async Task<Response<InfoEstado>> Get(string id)
-            =>await _service.GetPostalCodeInfo(id);
+            => await _service.GetPostalCodeInfo(id);
     }
 }

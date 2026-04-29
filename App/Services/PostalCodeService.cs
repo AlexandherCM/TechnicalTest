@@ -57,7 +57,6 @@ namespace App.Services
                Codigo = "15",
                Colonias = response.Colonias.Select(c => new InfoColonia
                {
-                   ID = c.Id,
                    Nombre = c.DescripcionColonia,
                    Codigo = c.CodigoColonia
                }).ToList()

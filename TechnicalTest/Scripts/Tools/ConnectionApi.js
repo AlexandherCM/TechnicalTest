@@ -2,8 +2,8 @@ class ConnectionApi {
     static timeSpam = 500;
 
     static logOut = "Home/Logout";
-    static host = 'https://localhost:44373/';
-
+    static host = 'https://localhost:44373/api/';
+        
     url = ConnectionApi.host;
 
     async redirectToLogOut() {
@@ -16,10 +16,6 @@ class ConnectionApi {
         setTimeout(() => {
             window.location.href = `${ConnectionApi.host}${endoPoint}`;
         }, ConnectionApi.timeSpam);
-    }
-
-    holaMundo() {
-        console.log("Hola Mundo");  
     }
 
     // ================================ INSERT ================================

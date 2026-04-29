@@ -1,10 +1,11 @@
-﻿using Domain;
+﻿using App.Presenters;
+using Domain;
 using System.Threading.Tasks;
 
 namespace App.Interfaces
 {
     public interface IPostalCodeService
     {
-        Task<PostalCodeXmlResponse> GetPostalCodeInfo(string postalCode);
+        Task<Response<InfoEstado>> GetPostalCodeInfo(string postalCode);
     }   
 }

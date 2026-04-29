@@ -1,4 +1,5 @@
 ﻿using App.Interfaces;
+using App.Presenters;
 using Domain;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -12,9 +13,7 @@ namespace TechnicalTest.Controllers.Api
             =>_service = service;
 
         [HttpGet]
-        public async Task<PostalCodeXmlResponse> Get(string id)
-        {   
-            return await _service.GetPostalCodeInfo(id);
-        }   
+        public async Task<Response<InfoEstado>> Get(string id)
+            =>await _service.GetPostalCodeInfo(id);
     }
 }

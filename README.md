@@ -4,6 +4,13 @@ Aplicación web desarrollada en **ASP.NET Framework 4.7 + ASP.NET MVC 5** como p
 
 ## Configuración de la cadena de conexión
 
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+
+Se trabaja con EntityFramework, puedes ejecutar el comando "update-database" en la consola de paquetes nugget
+
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+
+
 Ir al archivo:
 
 ```txt

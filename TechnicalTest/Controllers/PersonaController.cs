@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace TechnicalTest.Controllers
@@ -48,10 +49,17 @@ namespace TechnicalTest.Controllers
 
             var request = _service.AgregarPersona(model);
             if (request.Estado)
-                request.Redirect = "/Home/Index";
+                request.Redirect = "/Persona/Registros";    
 
             TempData["AlertJS"] = JsonConvert.SerializeObject(request);
             return RedirectToAction(nameof(Registro));
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Registros()       
+        {
+            var personas = await _service.ObtenerPersonas();
+            return View(personas);
         }
     }
 }

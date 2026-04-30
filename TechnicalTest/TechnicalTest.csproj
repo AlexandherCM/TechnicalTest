@@ -240,6 +240,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\PostalCode\Cp.cshtml" />
     <Content Include="Views\Persona\Registro.cshtml" />
+    <Content Include="Views\Persona\Registros.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

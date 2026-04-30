@@ -5,10 +5,17 @@ document.addEventListener("DOMContentLoaded", function () {
     var btnLimpiar = document.getElementById("btnLimpiar");
     var mensajeValidacion = document.getElementById("mensajeValidacion");
 
+    var seccionResultados = document.getElementById("seccionResultados");
+    var mensajeError = document.getElementById("mensajeError");
+
+    // Si esta página no tiene el formulario de CP, no ejecutes nada.
+    if (!txtcodigoPostal || !btnConsultar || !btnLimpiar || !mensajeValidacion) {
+        return;
+    }
+
     txtcodigoPostal.addEventListener("input", function () {
         var valor = txtcodigoPostal.value;
 
-        // Permitir únicamente números
         valor = valor.replace(/[^0-9]/g, "");
         txtcodigoPostal.value = valor;
 
@@ -28,8 +35,13 @@ document.addEventListener("DOMContentLoaded", function () {
         btnConsultar.disabled = true;
         mensajeValidacion.style.display = "none";
 
-        document.getElementById("seccionResultados").style.display = "none";
-        document.getElementById("mensajeError").style.display = "none";
+        if (seccionResultados) {
+            seccionResultados.style.display = "none";
+        }
+
+        if (mensajeError) {
+            mensajeError.style.display = "none";
+        }
     });
 
 });

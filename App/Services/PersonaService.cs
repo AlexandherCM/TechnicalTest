@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 public class PersonaService
 {
@@ -19,6 +20,13 @@ public class PersonaService
         _normalizationHelper = new PersonNormalizationHelper();
     }
 
+    public async Task<IEnumerable<PersonaViewModel>> ObtenerPersonas()
+    {
+        var personas = await _personaRepository.Select();
+        return personas
+            .Select(MapToViewModel)
+            .ToList();
+    }
 
     public RequestViewModel AgregarPersona(PersonaViewModel viewModel)
     {
@@ -64,6 +72,31 @@ public class PersonaService
             FechaNacimiento = viewModel.FechaNacimiento,
             Correo = viewModel.Correo
         };
+
+    private PersonaViewModel MapToViewModel(PersonaEntity entity)
+    {
+        string nombreCompleto = $"{entity.Nombres} {entity.ApellidoPaterno} {entity.ApellidoMaterno}";
+
+        List<string> preposiciones = _normalizationHelper
+            .ObtenerPreposicionesDesdeNombreCompleto(nombreCompleto);
+
+        return new PersonaViewModel
+        {
+            ID = entity.ID,
+            UserID = entity.UserID,
+
+            NombreCompleto = nombreCompleto,
+
+            Hobby = entity.Hobby,
+            FechaNacimiento = entity.FechaNacimiento,
+            FechaNacimientoStr = entity.FechaNacimiento.ToString("dd/MM/yyyy"),
+            Correo = entity.Correo,
+
+            Preposiciones = preposiciones.Any()
+                ? string.Join(", ", preposiciones)
+                : "Sin preposiciones"
+        };
+    }
 
     private RequestViewModel CrearGoodRequest(string titulo, string leyenda, string html)
     {

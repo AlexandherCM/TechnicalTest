@@ -29,6 +29,21 @@ namespace App.Services.Helpers
             return _preposiciones.Contains(palabra.ToLower());
         }
 
+        public List<string> ObtenerPreposicionesDesdeNombreCompleto(string nombreCompleto)
+        {
+            if (string.IsNullOrWhiteSpace(nombreCompleto))
+                return new List<string>();
+
+            string nombreNormalizado = NormalizarEspacios(nombreCompleto);
+
+            List<string> palabras = nombreNormalizado
+                .Split(' ')
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .ToList();
+
+            return ObtenerPreposicionesEncontradas(palabras);
+        }
+
         public NombreProcesadoDTO ProcesarNombreCompleto(string nombreCompleto, DateTime fechaNacimiento)
         {
             if (string.IsNullOrWhiteSpace(nombreCompleto))

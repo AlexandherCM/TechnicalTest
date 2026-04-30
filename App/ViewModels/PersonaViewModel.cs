@@ -38,5 +38,7 @@ namespace App.ViewModels
         [StringLength(150, ErrorMessage = "El correo no puede superar los 150 caracteres.")]
         [Display(Name = "Correo electrónico")]
         public string Correo { get; set; }
+            
+        public string Preposiciones { get; set; } = string.Empty;
     }
 }

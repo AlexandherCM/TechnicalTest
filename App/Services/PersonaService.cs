@@ -22,10 +22,21 @@ public class PersonaService
 
     public async Task<IEnumerable<PersonaViewModel>> ObtenerPersonas()
     {
-        var personas = await _personaRepository.Select();
-        return personas
-            .Select(MapToViewModel)
-            .ToList();
+        try
+        {
+            var personas = await _personaRepository.Select();
+
+            if (personas == null)
+                return Enumerable.Empty<PersonaViewModel>();
+
+            return personas
+                .Select(MapToViewModel)
+                .ToList();
+        }
+        catch
+        {
+            return Enumerable.Empty<PersonaViewModel>();
+        }
     }
 
     public RequestViewModel AgregarPersona(PersonaViewModel viewModel)

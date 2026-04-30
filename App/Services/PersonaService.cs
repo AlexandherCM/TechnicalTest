@@ -1,65 +1,56 @@
 ﻿using App.DTOs;
 using App.Interfaces.Persistence.Repositories;
+using App.Services.Helpers;
 using App.ViewModels;
 using Domain.Persistence;
 using System;
 using System.Collections.Generic;
-using System.Dynamic;
-using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
 public class PersonaService
 {
     private IPersonaRepository _personaRepository;
-    private AlertaViewModel alertaViewModel = new AlertaViewModel();
+    private PersonNormalizationHelper _normalizationHelper = new PersonNormalizationHelper();
 
     public PersonaService(IPersonaRepository personaRepository)
     {
         _personaRepository = personaRepository;
+        _normalizationHelper = new PersonNormalizationHelper();
     }
 
-    private readonly string[] _preposiciones = new[] { "de", "del", "la", "las", "los", "el" };
 
     public RequestViewModel AgregarPersona(PersonaViewModel viewModel)
     {
         try
         {
-            var nombreProcesado = ProcesarNombreCompleto(
+            RequestViewModel validacion = ValidarDatosPersona(viewModel);
+
+            if (validacion != null)
+                return validacion;
+
+            var nombreProcesado = _normalizationHelper.ProcesarNombreCompleto(
                 viewModel.NombreCompleto,
                 viewModel.FechaNacimiento
             );
 
             var personaEntity = MapperToModel(viewModel, nombreProcesado);
+
             _personaRepository.Insert(personaEntity);
 
-            alertaViewModel.goodRequest.Html = 
-                DiseñarHTML(nombreProcesado.PreposicionesEncontradas);
-
-            return alertaViewModel.goodRequest;
+            return CrearGoodRequest(
+                "¡Éxito!",
+                "La persona se registró correctamente.",
+                DiseñarHTML(nombreProcesado.PreposicionesEncontradas)
+            );
         }
         catch (Exception ex)
         {
-            alertaViewModel.badRequest.Leyenda = $"Error al procesar la solicitud: {ex.Message}";
-            return alertaViewModel.badRequest;
+            return CrearBadRequest(
+                "¡Error!",
+                $"Error al procesar la solicitud: {ex.Message}"
+            );
         }
-    }
-
-    public string DiseñarHTML(List<string> PreposicionesEncontradas)
-    {
-        var preposicionesHtml = PreposicionesEncontradas.Any()
-            ? string.Join("", PreposicionesEncontradas
-                .Select(p => $"<li>{p}</li>"))
-            : "<hr /><li>No se encontraron preposiciones.</li>";
-
-        return 
-            $@"
-                <hr />
-                <strong>Preposiciones encontradas:</strong>
-                <ul style='text-align:left;'>
-                    {preposicionesHtml}
-                </ul>
-            ";
     }
 
     private PersonaEntity MapperToModel(PersonaViewModel viewModel, NombreProcesadoDTO dto)
@@ -74,198 +65,169 @@ public class PersonaService
             Correo = viewModel.Correo
         };
 
-    private NombreProcesadoDTO ProcesarNombreCompleto(string nombreCompleto, DateTime fechaNacimiento)
+    private RequestViewModel CrearGoodRequest(string titulo, string leyenda, string html)
+    {
+        return new RequestViewModel
+        {
+            Titulo = titulo,
+            Leyenda = leyenda,
+            Estado = true,
+            Html = html
+        };
+    }
+    private RequestViewModel CrearBadRequest(string titulo, string html)
+    {
+        return new RequestViewModel
+        {
+            Titulo = titulo,
+            Leyenda = "No fue posible procesar la solicitud.",
+            Estado = false,
+            Html = html
+        };
+    }
+
+    private RequestViewModel ValidarDatosPersona(PersonaViewModel viewModel)
+    {
+        var errores = new List<string>();
+
+        if (viewModel == null)
+        {
+            errores.Add("La información de la persona es obligatoria.");
+            return CrearBadRequest("¡Datos inválidos!", ConstruirListaErroresHtml(errores));
+        }
+
+        ValidarNombreCompleto(viewModel.NombreCompleto, errores);
+        ValidarHobby(viewModel.Hobby, errores);
+        ValidarFechaNacimiento(viewModel.FechaNacimiento, errores);
+        ValidarCorreo(viewModel.Correo, errores);
+
+        if (errores.Any())
+        {
+            return CrearBadRequest(
+                "¡Datos inválidos!",
+                ConstruirListaErroresHtml(errores)
+            );
+        }
+
+        return null;
+    }
+
+    private string DiseñarHTML(List<string> PreposicionesEncontradas)
+    {
+        var preposicionesHtml = PreposicionesEncontradas.Any()
+            ? string.Join("", PreposicionesEncontradas
+                .Select(p => $"<li>{p}</li>"))
+            : "<hr /><li>No se encontraron preposiciones.</li>";
+
+        return
+            $@"
+                <hr />
+                <strong>Preposiciones encontradas:</strong>
+                <ul style='text-align:left;'>
+                    {preposicionesHtml}
+                </ul>
+            ";
+    }
+    private string ConstruirListaErroresHtml(List<string> errores)
+    {
+        var items = string.Join("", errores.Select(error => $"<li>{error}</li>"));
+
+        return $@"
+        <p>Revisa la información capturada antes de continuar.</p>
+        <hr />
+        <ul style='text-align:left;'>
+            {items}
+        </ul>";
+    }
+
+    private void ValidarNombreCompleto(string nombreCompleto, List<string> errores)
     {
         if (string.IsNullOrWhiteSpace(nombreCompleto))
         {
-            throw new ArgumentException("El nombre completo es obligatorio.");
+            errores.Add("El nombre completo es obligatorio.");
+            return;
         }
 
-        string nombreSinEspaciosDobles = NormalizarEspacios(nombreCompleto);
+        string nombreNormalizado = _normalizationHelper.NormalizarEspacios(nombreCompleto);
 
-        if (TieneCaracteresNoPermitidos(nombreSinEspaciosDobles))
-        {
-            throw new ArgumentException("El nombre contiene caracteres no permitidos.");
-        }
+        if (nombreNormalizado.Length < 5)
+            errores.Add("El nombre completo es demasiado corto.");
 
-        List<string> palabras = nombreSinEspaciosDobles
+        if (_normalizationHelper.TieneCaracteresNoPermitidos(nombreNormalizado))
+            errores.Add("El nombre solo puede contener letras, espacios, acentos y ñ.");
+
+        var palabras = nombreNormalizado
             .Split(' ')
             .Where(x => !string.IsNullOrWhiteSpace(x))
-            .Select(ConvertirPalabraATitulo)
             .ToList();
 
         if (palabras.Count < 3)
+            errores.Add("Debe capturar al menos nombre, apellido paterno y apellido materno.");
+
+        if (palabras.All(x => _normalizationHelper.EsPreposicion(x)))
+            errores.Add("El nombre completo no puede estar compuesto solo por preposiciones.");
+    }
+
+    private void ValidarFechaNacimiento(DateTime fechaNacimiento, List<string> errores)
+    {
+        if (fechaNacimiento == DateTime.MinValue)
         {
-            throw new ArgumentException("Debe capturar al menos nombre, apellido paterno y apellido materno.");
+            errores.Add("La fecha de nacimiento es obligatoria.");
+            return;
         }
 
-        List<string> preposicionesEncontradas = ObtenerPreposicionesEncontradas(palabras);
+        DateTime hoy = DateTime.Today;
+        DateTime fecha = fechaNacimiento.Date;
 
-        var resultadoMaterno = ExtraerApellidoDesdeElFinal(palabras);
-        string apellidoMaterno = FormatearApellido(resultadoMaterno.Apellido);
-
-        var resultadoPaterno = ExtraerApellidoDesdeElFinal(resultadoMaterno.Restantes);
-        string apellidoPaterno = FormatearApellido(resultadoPaterno.Apellido);
-
-        string nombre = string.Join(" ", resultadoPaterno.Restantes);
-
-        if (string.IsNullOrWhiteSpace(nombre))
+        if (fecha > hoy)
         {
-            throw new ArgumentException("No fue posible identificar el nombre de la persona.");
+            errores.Add("La fecha de nacimiento no puede ser futura.");
+            return;
         }
 
-        string nombreCompletoNormalizado = FormatearNombreCompleto(
-            nombre,
-            apellidoPaterno,
-            apellidoMaterno
+        int edad = CalcularEdad(fecha, hoy);
+
+        if (edad < 5)
+            errores.Add("La persona debe ser mayor de 5 años.");
+    }
+
+    private int CalcularEdad(DateTime fechaNacimiento, DateTime fechaActual)
+    {
+        int edad = fechaActual.Year - fechaNacimiento.Year;
+
+        if (fechaNacimiento.Date > fechaActual.AddYears(-edad))
+            edad--;
+
+        return edad;
+    }
+
+    private void ValidarCorreo(string correo, List<string> errores)
+    {
+        if (string.IsNullOrWhiteSpace(correo))
+        {
+            errores.Add("El correo electrónico es obligatorio.");
+            return;
+        }
+
+        bool esCorreoValido = Regex.IsMatch(
+            correo.Trim(),
+            @"^[^@\s]+@[^@\s]+\.[^@\s]+$"
         );
 
-        string userId = GenerarUserId(
-            nombre,
-            apellidoPaterno,
-            apellidoMaterno,
-            fechaNacimiento
-        );
-
-        return new NombreProcesadoDTO
-        {
-            NombreCompletoNormalizado = nombreCompletoNormalizado,
-            Nombres = nombre,
-            ApellidoPaterno = apellidoPaterno,
-            ApellidoMaterno = apellidoMaterno,
-            PreposicionesEncontradas = preposicionesEncontradas,
-            UserID = userId
-        };
+        if (!esCorreoValido)
+            errores.Add("El formato del correo electrónico no es válido.");
     }
 
-    private ApellidoSplitDTO ExtraerApellidoDesdeElFinal(List<string> palabras)
+    private void ValidarHobby(string hobby, List<string> errores)
     {
-        if (palabras == null || palabras.Count == 0)
+        if (string.IsNullOrWhiteSpace(hobby))
         {
-            throw new ArgumentException("No hay palabras suficientes para procesar el apellido.");
+            errores.Add("El hobby es obligatorio.");
+            return;
         }
 
-        var apellido = new List<string>();
-
-        int index = palabras.Count - 1;
-
-        // Tomamos la última palabra como núcleo del apellido.
-        apellido.Insert(0, palabras[index]);
-        index--;
-
-        while (index >= 0 && EsPreposicion(palabras[index]))
-        {
-            apellido.Insert(0, palabras[index]);
-            index--;
-        }
-
-        var restantes = palabras
-            .Take(index + 1)
-            .ToList();
-
-        return new ApellidoSplitDTO
-        {
-            Apellido = apellido,
-            Restantes = restantes
-        };
+        if (hobby.Trim().Length < 3)
+            errores.Add("El hobby debe contener al menos 3 caracteres.");
     }
 
-    private string NormalizarEspacios(string texto)
-        => Regex.Replace(texto.Trim(), @"\s+", " ");
-
-    private bool TieneCaracteresNoPermitidos(string texto)
-        => !Regex.IsMatch(texto, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$");
-
-    private string ConvertirPalabraATitulo(string palabra)
-    {
-        CultureInfo cultura = new CultureInfo("es-MX");
-
-        string palabraMinuscula = palabra.ToLower(cultura);
-
-        TextInfo textInfo = cultura.TextInfo;
-
-        return textInfo.ToTitleCase(palabraMinuscula);
-    }
-
-    private List<string> ObtenerPreposicionesEncontradas(List<string> palabras)
-        => palabras
-            .Select(p => p.ToLower())
-            .Where(p => _preposiciones.Contains(p))
-            .Distinct()
-            .OrderBy(p => p)
-            .ToList();
-
-    private bool EsPreposicion(string palabra)
-    {
-        if (string.IsNullOrWhiteSpace(palabra))
-        {
-            return false;
-        }
-
-        return _preposiciones.Contains(palabra.ToLower());
-    }
-
-    private string FormatearApellido(List<string> palabrasApellido)
-    {
-        return string.Join(" ", palabrasApellido.Select(ConvertirPalabraATitulo));
-    }
-
-    private string FormatearNombreCompleto(string nombre, string apellidoPaterno, string apellidoMaterno)
-    {
-
-        string completo = $"{nombre} {apellidoPaterno} {apellidoMaterno}";
-
-        return string.Join(" ",
-            completo
-                .Split(' ')
-                .Where(x => !string.IsNullOrWhiteSpace(x))
-                .Select(p =>
-                {
-                    if (EsPreposicion(p))
-                    {
-                        return p.ToLower();
-                    }
-
-                    return ConvertirPalabraATitulo(p);
-                })
-        );
-    }
-
-    private string GenerarUserId(string nombre, string apellidoPaterno, string apellidoMaterno, DateTime fechaNacimiento)
-    {
-        string parteApellidoPaterno = TomarLetrasSinPreposiciones(apellidoPaterno, 2);
-        string parteApellidoMaterno = TomarLetrasSinPreposiciones(apellidoMaterno, 1);
-        string parteNombre = TomarLetrasSinPreposiciones(nombre, 1);
-
-        string fecha = fechaNacimiento.ToString("ddMMyy");
-
-        return $"{parteApellidoPaterno}{parteApellidoMaterno}{parteNombre}{fecha}".ToUpper();
-    }
-
-    private string TomarLetrasSinPreposiciones(string texto, int cantidad)
-    {
-        if (string.IsNullOrWhiteSpace(texto))
-        {
-            return string.Empty;
-        }
-
-        string palabraBase = texto
-            .Split(' ')
-            .Where(x => !string.IsNullOrWhiteSpace(x))
-            .FirstOrDefault(x => !EsPreposicion(x));
-
-        if (string.IsNullOrWhiteSpace(palabraBase))
-        {
-            return string.Empty;
-        }
-
-        palabraBase = palabraBase.Trim();
-
-        if (palabraBase.Length <= cantidad)
-        {
-            return palabraBase;
-        }
-
-        return palabraBase.Substring(0, cantidad);
-    }
 }

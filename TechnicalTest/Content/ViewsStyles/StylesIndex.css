@@ -1,0 +1,110 @@
+﻿.home-page {
+    margin-top: 35px;
+    margin-bottom: 60px;
+}
+
+.home-hero {
+    background: #f8f9fa;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 35px 40px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+    .home-hero h1 {
+        margin-top: 0;
+        font-weight: 700;
+        color: #333;
+    }
+
+    .home-hero p {
+        font-size: 16px;
+        color: #666;
+        line-height: 1.7;
+        margin-bottom: 0;
+    }
+
+.home-tag {
+    display: inline-block;
+    background: #337ab7;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 14px;
+    font-size: 12px;
+    margin-bottom: 15px;
+    letter-spacing: .3px;
+}
+
+.home-panel {
+    border: none;
+    border-radius: 7px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    min-height: 295px;
+}
+
+    .home-panel .panel-heading {
+        padding: 16px 20px;
+    }
+
+    .home-panel .panel-body {
+        padding: 24px;
+    }
+
+    .home-panel h3 {
+        margin-top: 0;
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+
+    .home-panel p {
+        color: #666;
+        line-height: 1.6;
+        min-height: 70px;
+    }
+
+.home-feature-list {
+    padding-left: 18px;
+    margin-bottom: 22px;
+    color: #555;
+}
+
+    .home-feature-list li {
+        margin-bottom: 6px;
+    }
+
+.home-actions {
+    margin-top: 18px;
+}
+
+    .home-actions .btn {
+        min-width: 150px;
+    }
+
+.home-summary {
+    margin-top: 30px;
+}
+
+    .home-summary .panel-body {
+        padding: 25px;
+    }
+
+.home-tech-badge {
+    display: inline-block;
+    background: #eef5ff;
+    color: #337ab7;
+    border: 1px solid #d7e8ff;
+    border-radius: 14px;
+    padding: 6px 11px;
+    margin-right: 6px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.home-footer-note {
+    margin-top: 20px;
+    color: #777;
+    font-size: 13px;
+}

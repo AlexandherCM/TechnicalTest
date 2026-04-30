@@ -1,3 +1,146 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Inicio";
 }
+
+@section styles {
+    <link href="@Url.Content("~/Content/ViewsStyles/StylesIndex.css")" rel="stylesheet" />
+}
+
+<div class="container home-page">
+
+    <div class="home-hero">
+        <span class="home-tag">PRUEBA TÉCNICA · ASP.NET MVC 5</span>
+
+        <h1>Plataforma de consulta y registro</h1>
+
+        <p>
+            Aplicación web desarrollada en ASP.NET Framework MVC para consultar información
+            de códigos postales, procesar datos de personas, normalizar nombres, generar identificadores
+            de usuario y visualizar los registros almacenados.
+        </p>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="panel panel-primary home-panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Consulta de Código Postal</h3>
+                </div>
+
+                <div class="panel-body">
+                    <h3>Códigos Postales</h3>
+
+                    <p>
+                        Consulta información del estado y colonias asociadas a un Código Postal
+                        consumiendo el servicio externo configurado.
+                    </p>
+
+                    <ul class="home-feature-list">
+                        <li>Validación de CP a 5 dígitos.</li>
+                        <li>Consulta vía Web API.</li>
+                        <li>Listado seleccionable de colonias.</li>
+                        <li>Visualización del código de colonia.</li>
+                    </ul>
+
+                    <div class="home-actions">
+                        <a href="@Url.Action("Cp", "PostalCode")" class="btn btn-primary">
+                            Consultar CP
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-success home-panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Registro de Persona</h3>
+                </div>
+
+                <div class="panel-body">
+                    <h3>Procesamiento de datos</h3>
+
+                    <p>
+                        Captura información personal, normaliza el nombre completo, detecta preposiciones
+                        y genera un identificador único de usuario.
+                    </p>
+
+                    <ul class="home-feature-list">
+                        <li>Normalización de espacios.</li>
+                        <li>Formato CamelCase en nombres.</li>
+                        <li>Validación de fecha y correo.</li>
+                        <li>Generación automática de UserID.</li>
+                    </ul>
+
+                    <div class="home-actions">
+                        <a href="@Url.Action("Registro", "Persona")" class="btn btn-success">
+                            Registrar persona
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-info home-panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Registros Guardados</h3>
+                </div>
+
+                <div class="panel-body">
+                    <h3>Consulta de registros</h3>
+
+                    <p>
+                        Visualiza las personas registradas en la base de datos, incluyendo su ID generado,
+                        fecha de nacimiento y preposiciones encontradas.
+                    </p>
+
+                    <ul class="home-feature-list">
+                        <li>Consulta desde Entity Framework.</li>
+                        <li>Mapeo a ViewModel.</li>
+                        <li>Tabla responsiva con Bootstrap.</li>
+                        <li>Datos normalizados para presentación.</li>
+                    </ul>
+
+                    <div class="home-actions">
+                        <a href="@Url.Action("Registros", "Persona")" class="btn btn-info">
+                            Ver registros
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="panel panel-default home-summary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Resumen técnico</h3>
+        </div>
+
+        <div class="panel-body">
+            <p>
+                La solución integra una arquitectura por capas con servicios de aplicación,
+                adaptadores, repositorio, Entity Framework clásico, consumo HTTP, deserialización XML
+                y presentación mediante vistas Razor.
+            </p>
+
+            <div>
+                <span class="home-tech-badge">ASP.NET Framework 4.7</span>
+                <span class="home-tech-badge">MVC 5</span>
+                <span class="home-tech-badge">Web API 2</span>
+                <span class="home-tech-badge">Entity Framework 6</span>
+                <span class="home-tech-badge">Bootstrap 3</span>
+                <span class="home-tech-badge">jQuery Validate</span>
+                <span class="home-tech-badge">SweetAlert2</span>
+            </div>
+
+            <p class="home-footer-note">
+                Usa las opciones principales para navegar entre la consulta de Código Postal,
+                el registro de personas y la visualización de información almacenada.
+            </p>
+        </div>
+    </div>
+
+</div>

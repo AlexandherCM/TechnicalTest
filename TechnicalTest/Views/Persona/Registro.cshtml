@@ -5,38 +5,60 @@
     ViewBag.Title = "Registro";
 }
 
-<div class="container" style="margin-top: 30px;">
+
+@section styles {
+    <link href="@Url.Content("~/Content/ViewsStyles/StylesPersonRegister.css")" rel="stylesheet" />
+}
+
+<div class="container registro-page">
 
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-10 col-md-offset-1">
 
-            <div class="panel panel-primary">
+            <div class="registro-header">
+                <h2>Registro de persona</h2>
+                <p>
+                    Captura la información de la persona para normalizar el nombre,
+                    validar los datos y generar el ID de usuario.
+                </p>
+            </div>
+
+            <div class="panel panel-primary registro-panel">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Registro de persona</h3>
+                    <h3 class="panel-title">Información de la persona</h3>
                 </div>
 
                 <div class="panel-body">
 
-                    <p class="text-muted">
-                        Captura la información de la persona para normalizar el nombre, validar los datos y generar el ID de usuario.
-                    </p>
+                    <div class="registro-info-box">
+                        <p class="text-muted">
+                            Ingresa el nombre completo, hobby, fecha de nacimiento y correo electrónico.
+                            Al procesar la información se aplicarán las reglas de normalización y validación.
+                        </p>
+                    </div>
 
                     @using (Html.BeginForm("Registrar", "Persona", FormMethod.Post, new { id = "formPersona" }))
                     {
                         @Html.AntiForgeryToken()
 
-                        <div class="form-group">
+                        <h4 class="registro-section-title">Datos generales</h4>
+
+                        <div class="form-group registro-form-group">
                             @Html.LabelFor(model => model.NombreCompleto, "Nombre completo")
 
                             @Html.TextBoxFor(
                                 model => model.NombreCompleto,
                                 new
                                 {
-                                    @class = "form-control",
+                                    @class = "form-control input-lg",
                                     placeholder = "Ejemplo: Juan Carlos de la Cruz Pérez",
                                     autocomplete = "off"
                                 }
                             )
+
+                            <div class="registro-help">
+                                Captura nombre(s), apellido paterno y apellido materno.
+                            </div>
 
                             @Html.ValidationMessageFor(
                                 model => model.NombreCompleto,
@@ -45,14 +67,14 @@
                             )
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group registro-form-group">
                             @Html.LabelFor(model => model.Hobby, "Hobby")
 
                             @Html.TextBoxFor(
                                 model => model.Hobby,
                                 new
                                 {
-                                    @class = "form-control",
+                                    @class = "form-control input-lg",
                                     placeholder = "Ejemplo: Leer, correr, tocar guitarra",
                                     autocomplete = "off"
                                 }
@@ -65,55 +87,65 @@
                             )
                         </div>
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.FechaNacimiento, "Fecha de nacimiento")
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group registro-form-group">
+                                    @Html.LabelFor(model => model.FechaNacimiento, "Fecha de nacimiento")
 
-                            @Html.TextBoxFor(
-                                model => model.FechaNacimiento,
-                                new
-                                {
-                                    @class = "form-control",
-                                    type = "date"
-                                }
-                            )
+                                    @Html.TextBoxFor(
+                                        model => model.FechaNacimiento,
+                                        new
+                                        {
+                                            @class = "form-control input-lg",
+                                            type = "date"
+                                        }
+                                    )
 
-                            @Html.ValidationMessageFor(
-                                model => model.FechaNacimiento,
-                                "",
-                                new { @class = "text-danger" }
-                            )
+                                    <div class="registro-help">
+                                        La fecha no debe ser futura y la persona debe ser mayor de 5 años.
+                                    </div>
+
+                                    @Html.ValidationMessageFor(
+                                        model => model.FechaNacimiento,
+                                        "",
+                                        new { @class = "text-danger" }
+                                    )
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group registro-form-group">
+                                    @Html.LabelFor(model => model.Correo, "Correo electrónico")
+
+                                    @Html.TextBoxFor(
+                                        model => model.Correo,
+                                        new
+                                        {
+                                            @class = "form-control input-lg",
+                                            type = "email",
+                                            placeholder = "Ejemplo: correo@dominio.com",
+                                            autocomplete = "off"
+                                        }
+                                    )
+
+                                    @Html.ValidationMessageFor(
+                                        model => model.Correo,
+                                        "",
+                                        new { @class = "text-danger" }
+                                    )
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Correo, "Correo electrónico")
+                        <div class="registro-actions">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                Procesar información
+                            </button>
 
-                            @Html.TextBoxFor(
-                                model => model.Correo,
-                                new
-                                {
-                                    @class = "form-control",
-                                    type = "email",
-                                    placeholder = "Ejemplo: correo@dominio.com",
-                                    autocomplete = "off"
-                                }
-                            )
-
-                            @Html.ValidationMessageFor(
-                                model => model.Correo,
-                                "",
-                                new { @class = "text-danger" }
-                            )
+                            <button type="reset" class="btn btn-default btn-lg">
+                                Limpiar
+                            </button>
                         </div>
-
-                        <hr />
-
-                        <button type="submit" class="btn btn-primary">
-                            Procesar información
-                        </button>
-
-                        <button type="reset" class="btn btn-default">
-                            Limpiar
-                        </button>
                     }
 
                 </div>

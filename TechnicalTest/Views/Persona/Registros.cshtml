@@ -6,40 +6,52 @@
     ViewBag.Title = "Registros";
 }
 
-<h2>Registros</h2>
+@section styles {
+    <link href="@Url.Content("~/Content/ViewsStyles/StylesPersonsRegisters.css")" rel="stylesheet" />
+}
 
-<div class="container" style="margin-top: 30px;">
+<div class="container registros-page">
 
     <div class="row">
         <div class="col-md-12">
 
-            <div class="panel panel-primary">
+            <div class="registros-header">
+                <h2>Registros</h2>
+                <p>
+                    Consulta las personas registradas en la base de datos, junto con su ID generado,
+                    fecha de nacimiento y preposiciones encontradas en el nombre.
+                </p>
+            </div>
+
+            <div class="panel panel-primary registros-panel">
                 <div class="panel-heading">
                     <h3 class="panel-title">Personas registradas</h3>
                 </div>
 
                 <div class="panel-body">
 
-                    <p class="text-muted">
-                        Consulta de personas registradas en la base de datos.
-                    </p>
+                    <div class="registros-toolbar">
+                        <h4 class="registros-toolbar-title">
+                            Listado de registros
+                        </h4>
 
-                    <div class="form-group">
-                        <a href="@Url.Action("Registro", "Persona")" class="btn btn-primary">
-                            Nuevo registro
-                        </a>
+                        <div class="registros-actions">
+                            <a href="@Url.Action("Registro", "Persona")" class="btn btn-primary">
+                                Nuevo registro
+                            </a>
+                        </div>
                     </div>
 
                     @if (Model == null || !Model.Any())
                     {
-                        <div class="alert alert-warning">
+                        <div class="alert alert-warning registros-empty">
                             No existen personas registradas.
                         </div>
                     }
                     else
                     {
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped table-hover">
+                            <table class="table table-bordered table-striped table-hover registros-table">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
@@ -57,12 +69,30 @@
                                     {
                                         <tr>
                                             <td>@persona.ID</td>
-                                            <td>@persona.UserID</td>
+
+                                            <td>
+                                                <span class="registros-userid">
+                                                    @persona.UserID
+                                                </span>
+                                            </td>
+
                                             <td>@persona.NombreCompleto</td>
+
                                             <td>@persona.Hobby</td>
+
                                             <td>@persona.FechaNacimientoStr</td>
-                                            <td>@persona.Correo</td>
-                                            <td>@persona.Preposiciones</td>
+
+                                            <td>
+                                                <a href="mailto:@persona.Correo">
+                                                    @persona.Correo
+                                                </a>
+                                            </td>
+
+                                            <td>
+                                                <span class="registros-badge">
+                                                    @persona.Preposiciones
+                                                </span>
+                                            </td>
                                         </tr>
                                     }
                                 </tbody>

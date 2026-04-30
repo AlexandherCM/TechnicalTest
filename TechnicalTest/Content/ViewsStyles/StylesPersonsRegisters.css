@@ -1,0 +1,90 @@
+﻿.registros-page {
+    margin-top: 35px;
+    margin-bottom: 50px;
+}
+
+.registros-header {
+    margin-bottom: 25px;
+}
+
+    .registros-header h2 {
+        margin-top: 0;
+        font-weight: 600;
+    }
+
+    .registros-header p {
+        color: #6c757d;
+        font-size: 15px;
+        margin-bottom: 0;
+    }
+
+.registros-panel {
+    border-radius: 6px;
+    overflow: hidden;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+    .registros-panel .panel-heading {
+        padding: 15px 20px;
+    }
+
+    .registros-panel .panel-body {
+        padding: 25px;
+    }
+
+.registros-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #eee;
+}
+
+.registros-toolbar-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+.registros-table {
+    margin-bottom: 0;
+}
+
+    .registros-table thead tr th {
+        background: #f8f9fa;
+        color: #333;
+        font-weight: 600;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+
+    .registros-table tbody tr td {
+        vertical-align: middle;
+    }
+
+.registros-userid {
+    font-weight: 600;
+    color: #337ab7;
+}
+
+.registros-empty {
+    margin-top: 15px;
+    margin-bottom: 0;
+}
+
+.registros-badge {
+    display: inline-block;
+    padding: 5px 9px;
+    background: #eef5ff;
+    border: 1px solid #d7e8ff;
+    border-radius: 12px;
+    color: #337ab7;
+    font-size: 12px;
+}
+
+.registros-actions .btn {
+    min-width: 130px;
+}

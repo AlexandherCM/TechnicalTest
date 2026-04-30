@@ -1,0 +1,82 @@
+﻿.cp-page {
+    margin-top: 35px;
+    margin-bottom: 50px;
+}
+
+.cp-header {
+    margin-bottom: 25px;
+}
+
+    .cp-header h2 {
+        margin-top: 0;
+        font-weight: 600;
+    }
+
+    .cp-header p {
+        color: #6c757d;
+        font-size: 15px;
+    }
+
+.cp-panel {
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: none;
+}
+
+    .cp-panel .panel-heading {
+        padding: 15px 20px;
+    }
+
+    .cp-panel .panel-body {
+        padding: 25px;
+    }
+
+.cp-form-actions {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+    .cp-form-actions .btn {
+        min-width: 110px;
+        margin-right: 8px;
+    }
+
+.cp-result-item {
+    background: #f8f9fa;
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+    .cp-result-item label {
+        color: #555;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+        margin-bottom: 8px;
+    }
+
+.cp-result-value {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+    color: #333;
+}
+
+.cp-section-title {
+    margin-top: 5px;
+    margin-bottom: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.cp-alert {
+    margin-top: 20px;
+}
+
+.cp-colonia-box {
+    margin-top: 20px;
+}

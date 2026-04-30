@@ -161,6 +161,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="Content\ViewsStyles\StylesIndex.css" />
+    <Content Include="Content\ViewsStyles\StylesPersonsRegisters.css" />
     <Compile Include="Controllers\Api\PostalCodeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PersonaController.cs" />
@@ -183,6 +185,8 @@
     <Compile Include="Models\Context.cs" />
     <Compile Include="Models\Entities\Persona.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Content\ViewsStyles\StylesPersonRegister.css" />
+    <Content Include="Content\ViewsStyles\StylesPostalCode.css" />
     <Content Include="Scripts\Tools\SweetAlert2\ScriptAlerts.js" />
     <Content Include="Scripts\Tools\site.js" />
     <Content Include="Scripts\ViewsScripts\PostalCodeScripts\RequestCpScript.js" />

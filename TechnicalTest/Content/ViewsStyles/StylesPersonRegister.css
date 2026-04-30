@@ -1,0 +1,85 @@
+﻿
+.registro-page {
+    margin-top: 35px;
+    margin-bottom: 50px;
+}
+
+.registro-header {
+    margin-bottom: 25px;
+}
+
+    .registro-header h2 {
+        margin-top: 0;
+        font-weight: 600;
+    }
+
+    .registro-header p {
+        color: #6c757d;
+        font-size: 15px;
+        margin-bottom: 0;
+    }
+
+.registro-panel {
+    border-radius: 6px;
+    overflow: hidden;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+    .registro-panel .panel-heading {
+        padding: 15px 20px;
+    }
+
+    .registro-panel .panel-body {
+        padding: 28px;
+    }
+
+.registro-section-title {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #333;
+}
+
+.registro-form-group {
+    margin-bottom: 22px;
+}
+
+    .registro-form-group label {
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .registro-form-group .form-control {
+        height: 42px;
+        border-radius: 5px;
+    }
+
+.registro-help {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #777;
+}
+
+.registro-actions {
+    margin-top: 25px;
+    padding-top: 22px;
+    border-top: 1px solid #eee;
+}
+
+    .registro-actions .btn {
+        min-width: 145px;
+        margin-right: 8px;
+    }
+
+.registro-info-box {
+    background: #f8f9fa;
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+    padding: 15px 18px;
+    margin-bottom: 25px;
+}
+
+    .registro-info-box p {
+        margin-bottom: 0;
+    }

@@ -1,15 +1,25 @@
 ﻿@{
-    ViewBag.Title = "Cp";
+    ViewBag.Title = "Códigos Postales";
 }
 
-<h2>Códigos Postales</h2>
+@section styles {
+    <link href="@Url.Content("~/Content/ViewsStyles/StylesPostalCode.css")" rel="stylesheet" />
+}
 
-<div class="container" style="margin-top: 30px;">
+<div class="container cp-page">
 
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-10 col-md-offset-1">
 
-            <div class="panel panel-primary">
+            <div class="cp-header">
+                <h2>Códigos Postales</h2>
+                <p>
+                    Consulta la información de un Código Postal, visualiza el estado correspondiente
+                    y selecciona una colonia para conocer su código.
+                </p>
+            </div>
+
+            <div class="panel panel-primary cp-panel">
                 <div class="panel-heading">
                     <h3 class="panel-title">
                         Consulta de Código Postal
@@ -18,47 +28,59 @@
 
                 <div class="panel-body">
 
-                    <p class="text-muted">
-                        Ingresa un Código Postal de 5 dígitos para consultar la información del estado y sus colonias.
-                    </p>
-
                     <form id="formConsultaCP">
 
-                        <div class="form-group">
-                            <label for="txtcodigoPostal">Código Postal</label>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="txtcodigoPostal">Código Postal</label>
 
-                            <input type="text"
-                                   id="txtcodigoPostal"
-                                   name="codigoPostal"
-                                   class="form-control"
-                                   placeholder="Ejemplo: 01000"
-                                   maxlength="5"
-                                   autocomplete="off" />
+                                    <input type="text"
+                                           id="txtcodigoPostal"
+                                           name="codigoPostal"
+                                           class="form-control input-lg"
+                                           placeholder="Ejemplo: 01000"
+                                           maxlength="5"
+                                           autocomplete="off" />
 
-                            <span id="mensajeValidacion" class="help-block text-danger" style="display:none;">
-                                El código postal debe contener exactamente 5 números.
-                            </span>
+                                    <span id="mensajeValidacion"
+                                          class="help-block text-danger"
+                                          style="display:none;">
+                                        El código postal debe contener exactamente 5 números.
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>&nbsp;</label>
+
+                                    <div class="cp-form-actions" style="border-top:none; padding-top:0; margin-top:0;">
+                                        <button type="submit"
+                                                id="btnConsultar"
+                                                class="btn btn-primary btn-lg btn-block"
+                                                disabled>
+                                            Consultar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <button type="submit"
-                                id="btnConsultar"
-                                class="btn btn-primary"
-                                disabled>
-                            Consultar
-                        </button>
-
-                        <button type="button"
-                                id="btnLimpiar"
-                                class="btn btn-default">
-                            Limpiar
-                        </button>
+                        <div class="cp-form-actions">
+                            <button type="button"
+                                    id="btnLimpiar"
+                                    class="btn btn-default">
+                                Limpiar
+                            </button>
+                        </div>
 
                     </form>
 
                 </div>
             </div>
 
-            <div id="seccionResultados" class="panel panel-default" style="display:none;">
+            <div id="seccionResultados" class="panel panel-default cp-panel" style="display:none;">
                 <div class="panel-heading">
                     <h3 class="panel-title">
                         Resultados de la consulta
@@ -67,49 +89,63 @@
 
                 <div class="panel-body">
 
+                    <h4 class="cp-section-title">Información del estado</h4>
+
                     <div class="row">
                         <div class="col-md-6">
-                            <label>Nombre del estado</label>
-                            <p id="lblNombreEstado" class="form-control-static">-</p>
+                            <div class="cp-result-item">
+                                <label>Nombre del estado</label>
+                                <p id="lblNombreEstado" class="cp-result-value">-</p>
+                            </div>
                         </div>
 
                         <div class="col-md-6">
-                            <label>Código del estado</label>
-                            <p id="lblCodigoEstado" class="form-control-static">-</p>
+                            <div class="cp-result-item">
+                                <label>Código del estado</label>
+                                <p id="lblCodigoEstado" class="cp-result-value">-</p>
+                            </div>
                         </div>
                     </div>
 
-                    <hr />
+                    <div class="cp-colonia-box">
+                        <h4 class="cp-section-title">Colonias asociadas</h4>
 
-                    <div class="form-group">
-                        <label for="ddlColonias">Colonias asociadas al Código Postal</label>
+                        <div class="form-group">
+                            <label for="ddlColonias">Selecciona una colonia</label>
 
-                        <select id="ddlColonias" class="form-control" disabled>
-                            <option value="">Seleccione una colonia</option>
-                        </select>
-                    </div>
+                            <select id="ddlColonias" class="form-control input-lg" disabled>
+                                <option value="">Seleccione una colonia</option>
+                            </select>
+                        </div>
 
-                    <div id="contenedorCodigoColonia" class="alert alert-info" style="display:none;">
-                        <strong>Código de colonia:</strong>
-                        <span id="lblCodigoColonia">-</span>
+                        <div id="contenedorCodigoColonia"
+                             class="alert alert-info cp-alert"
+                             style="display:none;">
+                            <strong>Código de colonia:</strong>
+                            <span id="lblCodigoColonia">-</span>
+                        </div>
                     </div>
 
                 </div>
             </div>
 
-            <div id="mensajeSinResultados" class="alert alert-warning" style="display:none;">
+            <div id="mensajeSinResultados"
+                 class="alert alert-warning cp-alert"
+                 style="display:none;">
                 No se encontró información para el Código Postal capturado.
             </div>
 
-            <div id="mensajeErrorConsulta" class="alert alert-danger" style="display:none;">
+            <div id="mensajeErrorConsulta"
+                 class="alert alert-danger cp-alert"
+                 style="display:none;">
                 Ocurrió un error al consultar la información. Intenta nuevamente.
             </div>
-
 
         </div>
     </div>
 
 </div>
+
 
 @section scripts {
     @Scripts.Render("~/bundles/jqueryval")

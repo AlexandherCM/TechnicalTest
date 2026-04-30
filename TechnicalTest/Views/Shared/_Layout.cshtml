@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
@@ -33,8 +33,18 @@
     </div>
 
     @Scripts.Render("~/bundles/ConnectionApi")
+    @Scripts.Render("~/bundles/SweetAlert2")
+    @Scripts.Render("~/bundles/site")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+          let Alert = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.AlertJS));
+
+          if (Alert !== null && Alert !== undefined) {
+              SweetAlert(Alert);
+          }
+    </script>
 </body>
 </html>

@@ -4,39 +4,62 @@ using App.ViewModels;
 using Domain.Persistence;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 public class PersonaService
 {
     private IPersonaRepository _personaRepository;
+    private AlertaViewModel alertaViewModel = new AlertaViewModel();
 
     public PersonaService(IPersonaRepository personaRepository)
     {
         _personaRepository = personaRepository;
-    }   
+    }
 
-    private readonly string[] _preposiciones = new[]
+    private readonly string[] _preposiciones = new[] { "de", "del", "la", "las", "los", "el" };
+
+    public RequestViewModel AgregarPersona(PersonaViewModel viewModel)
     {
-        "de",
-        "del",
-        "la",
-        "las",
-        "los",
-        "el"
-    };
+        try
+        {
+            var nombreProcesado = ProcesarNombreCompleto(
+                viewModel.NombreCompleto,
+                viewModel.FechaNacimiento
+            );
 
-    public void AgregarPersona(PersonaViewModel viewModel)
+            var personaEntity = MapperToModel(viewModel, nombreProcesado);
+            _personaRepository.Insert(personaEntity);
+
+            alertaViewModel.goodRequest.Html = 
+                DiseñarHTML(nombreProcesado.PreposicionesEncontradas);
+
+            return alertaViewModel.goodRequest;
+        }
+        catch (Exception ex)
+        {
+            alertaViewModel.badRequest.Leyenda = $"Error al procesar la solicitud: {ex.Message}";
+            return alertaViewModel.badRequest;
+        }
+    }
+
+    public string DiseñarHTML(List<string> PreposicionesEncontradas)
     {
-        var nombreProcesado = ProcesarNombreCompleto(
-            viewModel.NombreCompleto,
-            viewModel.FechaNacimiento
-        );
+        var preposicionesHtml = PreposicionesEncontradas.Any()
+            ? string.Join("", PreposicionesEncontradas
+                .Select(p => $"<li>{p}</li>"))
+            : "<hr /><li>No se encontraron preposiciones.</li>";
 
-        var personaEntity = MapperToModel(viewModel, nombreProcesado); 
-        _personaRepository.Insert(personaEntity);
+        return 
+            $@"
+                <hr />
+                <strong>Preposiciones encontradas:</strong>
+                <ul style='text-align:left;'>
+                    {preposicionesHtml}
+                </ul>
+            ";
     }
 
     private PersonaEntity MapperToModel(PersonaViewModel viewModel, NombreProcesadoDTO dto)

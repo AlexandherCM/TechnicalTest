@@ -14,7 +14,7 @@ class ConnectionApi {
 
     async redirectToAction(endoPoint) {
         setTimeout(() => {
-            window.location.href = `${ConnectionApi.host}${endoPoint}`;
+            window.location.href = endoPoint;
         }, ConnectionApi.timeSpam);
     }
 

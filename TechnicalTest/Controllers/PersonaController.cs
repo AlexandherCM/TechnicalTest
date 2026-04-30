@@ -1,8 +1,7 @@
 ﻿using App.ViewModels;
-using System;
-using System.Collections.Generic;
+using Newtonsoft.Json;
 using System.Linq;
-using System.Web;
+using System.Reflection;
 using System.Web.Mvc;
 
 namespace TechnicalTest.Controllers
@@ -10,35 +9,47 @@ namespace TechnicalTest.Controllers
     public class PersonaController : Controller
     {
         private readonly PersonaService _service;
+        private AlertaViewModel alertaViewModel = new AlertaViewModel();
+
         public PersonaController(PersonaService service)
             => _service = service;
 
+        protected void ValidateAlert()
+        {
+            if (TempData["AlertJS"] != null)
+            {
+                var json = (string)TempData["AlertJS"];
+                ViewBag.AlertJS = JsonConvert.DeserializeObject<RequestViewModel>(json) ?? new RequestViewModel();
+            }
+        }
+
+        protected bool ValidateModel()
+        {
+            if (ModelState.IsValid)
+                return true;
+
+            alertaViewModel.badRequest.Leyenda = "Verifica los campos obligatorios.";
+            ViewBag.AlertJS = alertaViewModel.badRequest;
+            return false;
+        }
+            
         public ActionResult Registro()
         {
-            return View();
+            ValidateAlert();
+            return View();  
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Registrar(PersonaViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                var errores = 
-                    ModelState.Where(x => x.Value.Errors.Any())
-                              .Select(x => new
-                              {
-                                  Campo = x.Key,
-                                  Errores = x.Value.Errors.Select(e => e.ErrorMessage).ToList()
-                              })
-                              .ToList();
+            if (!ValidateModel())
+                return View(nameof(Registro), model);   
 
-                return View(nameof(Registro));
-            }
+            var request = _service.AgregarPersona(model);
+            TempData["AlertJS"] = JsonConvert.SerializeObject(request);
 
-
-            _service.AgregarPersona(model);
-            return View(nameof(Registro));
+            return RedirectToAction(nameof(Registro));
         }
     }
 }

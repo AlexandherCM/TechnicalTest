@@ -8,6 +8,12 @@ namespace TechnicalTest
         // Para obtener más información sobre las uniones, visite https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            bundles.Add(new ScriptBundle("~/bundles/site").Include(
+                        "~/Scripts/Tools/site.js"));
+            
+            bundles.Add(new ScriptBundle("~/bundles/SweetAlert2").Include(
+                        "~/Scripts/Tools/SweetAlert2/ScriptAlerts.js"));
+            
             bundles.Add(new ScriptBundle("~/bundles/ConnectionApi").Include(
                         "~/Scripts/Tools/ConnectionApi.js"));
             

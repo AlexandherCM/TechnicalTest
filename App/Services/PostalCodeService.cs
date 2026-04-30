@@ -20,7 +20,7 @@ namespace App.Services
             _serialize = serialize;
         }
 
-        public async Task<Response<InfoEstado>> GetPostalCodeInfo(string postalCode)
+        public async Task<ResponseWebApi<InfoEstado>> GetPostalCodeInfo(string postalCode)
         {
             try
             {
@@ -28,9 +28,9 @@ namespace App.Services
                 thonaApiUrl += postalCode;
 
                 var contentXml = await _http.GetAsync(thonaApiUrl, httpMethod: HttpContentType.Xml);
-                var infoEstado = _serialize.DeserializeFullXML<PostalCodeXmlResponse>(contentXml);
+                var infoEstado = _serialize.DeserializeFullXML<PostalCodeXmlResponseEntity>(contentXml);
 
-                return new Response<InfoEstado>
+                return new ResponseWebApi<InfoEstado>
                 {
                     status = "success",
                     message = "Información del código postal obtenida correctamente.",
@@ -40,7 +40,7 @@ namespace App.Services
             }
             catch
             {
-                return new Response<InfoEstado>
+                return new ResponseWebApi<InfoEstado>
                 {
                     status = "error",
                     message = "Error al obtener la información del código postal.",
@@ -50,11 +50,11 @@ namespace App.Services
             }
         }
 
-        public InfoEstado MapperEstado(PostalCodeXmlResponse response)  
+        public InfoEstado MapperEstado(PostalCodeXmlResponseEntity response)  
            => new InfoEstado
            {
-               Nombre = "Estado de México",
-               Codigo = "15",
+               Nombre = response.DescripcionEstado,
+               Codigo = response.CodigoEstado,
                Colonias = response.Colonias.Select(c => new InfoColonia
                {
                    Nombre = c.DescripcionColonia,

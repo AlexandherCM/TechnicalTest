@@ -13,7 +13,7 @@ namespace TechnicalTest.Controllers.Api
             =>_service = service;
 
         [HttpGet]
-        public async Task<Response<InfoEstado>> Get(string id)
+        public async Task<ResponseWebApi<InfoEstado>> Get(string id)
             => await _service.GetPostalCodeInfo(id);
     }
 }

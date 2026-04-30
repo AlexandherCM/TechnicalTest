@@ -2,7 +2,7 @@
 
 namespace Domain
 {
-    public class ColoniaXml
+    public class ColoniaXmlEntity
     {
         [XmlAttribute("ID")]
         public string Id { get; set; }

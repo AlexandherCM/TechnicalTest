@@ -6,11 +6,11 @@ using System.Xml.Serialization;
 namespace Domain
 {
     [XmlRoot("DATA")]
-    public class PostalCodeXmlResponse
+    public class PostalCodeXmlResponseEntity
     {
-        public PostalCodeXmlResponse()
+        public PostalCodeXmlResponseEntity()
         {
-            Colonias = new List<ColoniaXml>();
+            Colonias = new List<ColoniaXmlEntity>();
         }
 
         [XmlElement("DESCESTADO")]
@@ -27,6 +27,6 @@ namespace Domain
 
         [XmlArray("COLONIAS")]
         [XmlArrayItem("COLONIA")]
-        public List<ColoniaXml> Colonias { get; set; }
+        public List<ColoniaXmlEntity> Colonias { get; set; }
     }
 }

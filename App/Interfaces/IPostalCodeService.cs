@@ -6,6 +6,6 @@ namespace App.Interfaces
 {
     public interface IPostalCodeService
     {
-        Task<Response<InfoEstado>> GetPostalCodeInfo(string postalCode);
+        Task<ResponseWebApi<InfoEstado>> GetPostalCodeInfo(string postalCode);
     }   
 }

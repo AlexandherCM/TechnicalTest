@@ -1,6 +1,9 @@
 using App.Interfaces;
+using App.Interfaces.Persistence;
+using App.Interfaces.Persistence.Repositories;
 using App.Services;
 using Domain;
+using Domain.Persistence;
 using Microsoft.Extensions.DependencyInjection;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -8,6 +11,8 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using TechnicalTest.InterfaceAdapter;
 using TechnicalTest.InterfaceAdapter.Adapters;
+using TechnicalTest.InterfaceAdapter.Repositories;
+using TechnicalTest.Models;
 
 namespace TechnicalTest
 {
@@ -20,16 +25,22 @@ namespace TechnicalTest
             //Configuración de la inyección de dependencias
             var builder = new ServiceCollection();
 
+
             //Configuración de tipo "Transient" ya que en NET framework no se cuenta con el ciclo de vida "Scoped"
             //y se desea que cada petición tenga su propia instancia.
 
-            //Interfaces de la capa de aplicación ===============================================
+            // DbContext ========================================================================
+            builder.AddTransient<Context>();
+            builder.AddTransient<IPersonaRepository, PersonaRepository>();  
+
+            // Adaptadores / infraestructura ====================================================
             builder.AddTransient<ISettings, ConfigSettingsAdapter>();
             builder.AddTransient<IHttp, HttpAdapter>();
             builder.AddTransient<ISerialize, SerializeAdapter>();
 
-            //Interfaces de la capa de aplicación ===============================================
+            //Interfaces y servicios de la capa de aplicación ====================================
             builder.AddTransient<IPostalCodeService, PostalCodeService>();
+            builder.AddTransient<PersonaService>();
 
             // ===================================================================================
             var serviceProvider = builder.BuildServiceProvider();

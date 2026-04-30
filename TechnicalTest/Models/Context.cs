@@ -10,5 +10,6 @@ namespace TechnicalTest.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
         }
+        public DbSet<Entities.Persona> Personas { get; set; }
     }
 }

@@ -1,0 +1,129 @@
+﻿@using App.ViewModels
+@model PersonaViewModel
+
+@{
+    ViewBag.Title = "Registro";
+}
+
+<div class="container" style="margin-top: 30px;">
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Registro de persona</h3>
+                </div>
+
+                <div class="panel-body">
+
+                    <p class="text-muted">
+                        Captura la información de la persona para normalizar el nombre, validar los datos y generar el ID de usuario.
+                    </p>
+
+                    @using (Html.BeginForm("Registrar", "Persona", FormMethod.Post, new { id = "formPersona" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.NombreCompleto, "Nombre completo")
+
+                            @Html.TextBoxFor(
+                                model => model.NombreCompleto,
+                                new
+                                {
+                                    @class = "form-control",
+                                    placeholder = "Ejemplo: Juan Carlos de la Cruz Pérez",
+                                    autocomplete = "off"
+                                }
+                            )
+
+                            @Html.ValidationMessageFor(
+                                model => model.NombreCompleto,
+                                "",
+                                new { @class = "text-danger" }
+                            )
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Hobby, "Hobby")
+
+                            @Html.TextBoxFor(
+                                model => model.Hobby,
+                                new
+                                {
+                                    @class = "form-control",
+                                    placeholder = "Ejemplo: Leer, correr, tocar guitarra",
+                                    autocomplete = "off"
+                                }
+                            )
+
+                            @Html.ValidationMessageFor(
+                                model => model.Hobby,
+                                "",
+                                new { @class = "text-danger" }
+                            )
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.FechaNacimiento, "Fecha de nacimiento")
+
+                            @Html.TextBoxFor(
+                                model => model.FechaNacimiento,
+                                new
+                                {
+                                    @class = "form-control",
+                                    type = "date"
+                                }
+                            )
+
+                            @Html.ValidationMessageFor(
+                                model => model.FechaNacimiento,
+                                "",
+                                new { @class = "text-danger" }
+                            )
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Correo, "Correo electrónico")
+
+                            @Html.TextBoxFor(
+                                model => model.Correo,
+                                new
+                                {
+                                    @class = "form-control",
+                                    type = "email",
+                                    placeholder = "Ejemplo: correo@dominio.com",
+                                    autocomplete = "off"
+                                }
+                            )
+
+                            @Html.ValidationMessageFor(
+                                model => model.Correo,
+                                "",
+                                new { @class = "text-danger" }
+                            )
+                        </div>
+
+                        <hr />
+
+                        <button type="submit" class="btn btn-primary">
+                            Procesar información
+                        </button>
+
+                        <button type="reset" class="btn btn-default">
+                            Limpiar
+                        </button>
+                    }
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -163,6 +163,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\PostalCodeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PersonaController.cs" />
     <Compile Include="Controllers\PostalCodeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -172,9 +173,15 @@
     <Compile Include="InterfaceAdapter\Adapters\PostalCodeAdapter.cs" />
     <Compile Include="InterfaceAdapter\Adapters\SerializeAdapter.cs" />
     <Compile Include="InterfaceAdapter\MvcDependencyResolver.cs" />
+    <Compile Include="InterfaceAdapter\Repositories\PersonaRepository.cs" />
     <Compile Include="InterfaceAdapter\WebApiDependencyResolver.cs" />
+    <Compile Include="Migrations\202604300054228_Init.cs" />
+    <Compile Include="Migrations\202604300054228_Init.Designer.cs">
+      <DependentUpon>202604300054228_Init.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Context.cs" />
+    <Compile Include="Models\Entities\Persona.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Scripts\ViewsScripts\PostalCodeScripts\RequestCpScript.js" />
   </ItemGroup>
@@ -228,9 +235,9 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\PostalCode\Cp.cshtml" />
+    <Content Include="Views\Persona\Registro.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -271,6 +278,11 @@
       <Project>{cb97bfe3-14c4-49c1-a8ec-ae721d492488}</Project>
       <Name>Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202604300054228_Init.resx">
+      <DependentUpon>202604300054228_Init.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

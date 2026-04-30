@@ -47,8 +47,10 @@ namespace TechnicalTest.Controllers
                 return View(nameof(Registro), model);   
 
             var request = _service.AgregarPersona(model);
-            TempData["AlertJS"] = JsonConvert.SerializeObject(request);
+            if (request.Estado)
+                request.Redirect = "/Home/Index";
 
+            TempData["AlertJS"] = JsonConvert.SerializeObject(request);
             return RedirectToAction(nameof(Registro));
         }
     }

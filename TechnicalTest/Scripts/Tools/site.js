@@ -19,8 +19,8 @@ function SweetAlert(AlertJS) {
         icon: type,
         confirmButtonText: 'Aceptar'
     }).then((result) => {
-        if (result.isConfirmed) {
-            api.redirectToAction('https://localhost:44373/Home/Index');
+        if (result.isConfirmed && AlertJS.Redirect) {
+            api.redirectToAction(`${api.urlMVC}${AlertJS.Redirect}` );
         }
     });
 }

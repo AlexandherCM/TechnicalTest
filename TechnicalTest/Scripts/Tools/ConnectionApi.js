@@ -2,13 +2,15 @@ class ConnectionApi {
     static timeSpam = 500;
 
     static logOut = "Home/Logout";
-    static host = 'https://localhost:44373/api/';
+    static hostMVC = 'https://localhost:44373/';
+    static hostApi = `${ConnectionApi.hostMVC}api/`;
         
-    url = ConnectionApi.host;
+    urlApi = ConnectionApi.hostApi;
+    urlMVC = ConnectionApi.hostMVC; 
 
     async redirectToLogOut() {
         setTimeout(() => {
-            window.location.href = `${ConnectionApi.host}${ConnectionApi.logOut}`;
+            window.location.href = `${ConnectionApi.hostApi}${ConnectionApi.logOut}`;
         }, ConnectionApi.timeSpam);
     }
 
@@ -21,7 +23,7 @@ class ConnectionApi {
     // ================================ INSERT ================================
 
     async SendPost(endpoint, data) {
-        const response = await fetch(`${ConnectionApi.host}${endpoint}`, {
+        const response = await fetch(`${ConnectionApi.hostApi}${endpoint}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
@@ -36,7 +38,7 @@ class ConnectionApi {
     // ================================ SELECT ================================
 
     async SendGet(endpoint) {
-        const response = await fetch(`${ConnectionApi.host}${endpoint}`, {
+        const response = await fetch(`${ConnectionApi.hostApi}${endpoint}`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
         });
@@ -48,7 +50,7 @@ class ConnectionApi {
     }
 
     async SendPostWithFile(endpoint, formData) {
-        const response = await fetch(`${ConnectionApi.host}${endpoint}`, {
+        const response = await fetch(`${ConnectionApi.hostApi}${endpoint}`, {
             method: 'POST',
             body: formData, // deja que el navegador setee el boundary
         });
@@ -62,7 +64,7 @@ class ConnectionApi {
     // ================================ UPDATE ================================
 
     async SendPut(endpoint, data) {
-        const response = await fetch(`${ConnectionApi.host}${endpoint}`, {
+        const response = await fetch(`${ConnectionApi.hostApi}${endpoint}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
@@ -85,7 +87,7 @@ class ConnectionApi {
         // Si tu API acepta body en DELETE, se envía; si no, déjalo en null.
         if (data !== null) options.body = JSON.stringify(data);
 
-        const response = await fetch(`${ConnectionApi.host}${endpoint}`, options);
+        const response = await fetch(`${ConnectionApi.hostApi}${endpoint}`, options);
 
         if (!response.ok)
             throw new Error(`HTTP error! status: ${response.status}`);

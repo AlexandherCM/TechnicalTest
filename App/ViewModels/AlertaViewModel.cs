@@ -32,5 +32,8 @@ namespace App.ViewModels
         
         [JsonProperty("Html")]
         public string Html { get; set; } = string.Empty;
+        
+        [JsonProperty("Redirect")]  
+        public string Redirect { get; set; } = string.Empty;
     }
 }
